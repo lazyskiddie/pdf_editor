@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF - SecurePDF</title>
+    <meta name="description" content="Combine multiple PDF files into one document. Free, secure, no uploads.">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-theme="light">
+
+<header class="header">
+    <nav class="nav">
+        <a href="../index.html" class="logo">📄 SecurePDF</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" onclick="showModal('privacy');return false;">Privacy</a></li>
+                <li><a href="#" onclick="showModal('terms');return false;">Terms</a></li>
+                <li><a href="#" onclick="showModal('contact');return false;">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+
+    <div class="tool-page-hero">
+        <h1>🔗 Merge PDF Files</h1>
+        <p>Combine multiple PDF files into one document. Add up to 10 files, reorder them, then merge.</p>
+    </div>
+
+    <div class="tool-workspace">
+
+
+        <div id="dropZoneArea">
+            <div class="drop-zone" id="dropZone">
+                <span class="upload-icon">📄</span>
+                <h3>Drop PDF files here or click to browse</h3>
+                <p>Add 2–10 PDF files to merge</p>
+                <input type="file" id="fileInput" accept=".pdf" multiple>
+            </div>
+        </div>
+
+
+        <div id="mergeInterface" style="display:none;">
+            <div class="info-box">
+                <p><strong>📄 Files added:</strong> <span id="fileCount">0</span> / 10</p>
+                <p id="infoHint">Add at least 2 files, then click Merge.</p>
+            </div>
+
+            <div id="fileList" style="margin-bottom:2rem;"></div>
+
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <button class="btn btn-secondary" onclick="addMore()">➕ Add More PDF</button>
+                <button class="btn" id="mergeBtn" onclick="startMerge()" style="display:none;">🔗 Merge All Files</button>
+            </div>
+
+            <input type="file" id="extraInput" accept=".pdf">
+        </div>
+
+
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Merging your PDFs…</p>
+        </div>
+
+
+        <div id="resultBox" style="display:none;" class="result-box">
+            <div class="result-icon">✅</div>
+            <h3>Merge Complete!</h3>
+            <div class="result-stats" id="resultStats"></div>
+            <div class="result-actions">
+                <button class="btn" onclick="downloadMerged()">💾 Download Merged PDF</button>
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Merge More PDFs</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <p><strong>© 2024 SecurePDF.</strong> All processing happens in your browser.</p>
+    <p>No files stored or uploaded · No sign-up required</p>
+</footer>
+
+
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('privacy')">&times;</span>
+        <h2>Privacy Policy</h2>
+        <p>Your files are never uploaded to any server. All processing happens locally in your browser. We collect no personal data.</p>
+    </div>
+</div>
+
+
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('terms')">&times;</span>
+        <h2>Terms of Use</h2>
+        <p>Use this service only for lawful purposes. The service is provided "as is" without warranties. You are responsible for maintaining backups of your original files.</p>
+    </div>
+</div>
+
+
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('contact')">&times;</span>
+        <h2>Contact Us</h2>
+        <p><strong>Email:</strong> support@securepdf.example</p>
+        <p style="margin-top:1rem;">We typically respond within 24–48 hours.</p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
