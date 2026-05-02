@@ -122,3 +122,67 @@ function renderFileList() {
     }
     document.getElementById('fileList').innerHTML = html;
 }
+function moveFile(idx, dir) {
+    var newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= mergeFiles.length) return;
+    var tmp = mergeFiles[idx];
+    mergeFiles[idx] = mergeFiles[newIdx];
+    mergeFiles[newIdx] = tmp;
+    renderFileList();
+}
+ 
+function removeFile(idx) {
+    mergeFiles.splice(idx, 1);
+    renderFileList();
+}
+ 
+
+async function startMerge() {
+    if (mergeFiles.length < 2) { alert('⚠️ Add at least 2 PDF files.'); return; }
+ 
+    document.getElementById('mergeInterface').style.display = 'none';
+    document.getElementById('loadingBox').style.display = 'block';
+ 
+    mergedPages = [];
+    var totalPages = 0;
+ 
+    try {
+        for (var i = 0; i < mergeFiles.length; i++) {
+            var buf = await mergeFiles[i].arrayBuffer();
+            var pdf = await pdfjsLib.getDocument(buf).promise;
+            totalPages += pdf.numPages;
+ 
+            for (var p = 1; p <= pdf.numPages; p++) {
+                var page = await pdf.getPage(p);
+                var viewport = page.getViewport({ scale: 1.5 });
+                var canvas = document.createElement('canvas');
+                canvas.width  = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+                mergedPages.push(canvas.toDataURL('image/jpeg', 0.88));
+            }
+        }
+ 
+        document.getElementById('loadingBox').style.display = 'none';
+        document.getElementById('resultStats').innerHTML =
+            '<p><strong> Files Merged:</strong> ' + mergeFiles.length + '</p>' +
+            '<p><strong> Total Pages:</strong> ' + totalPages + '</p>' +
+            '<p><strong> Status:</strong> Ready to download</p>';
+        document.getElementById('resultBox').style.display = 'block';
+ 
+    } catch (err) {
+        console.error(err);
+        document.getElementById('loadingBox').style.display = 'none';
+        alert('Merge failed. Please try again.');
+        location.reload();
+    }
+}
+ 
+function downloadMerged() {
+    if (!mergedPages.length) return;
+    var a = document.createElement('a');
+    a.download = 'merged_document.jpg';
+    a.href = mergedPages[0];
+    a.click();
+    showToast('Merged PDF downloaded! (' + mergedPages.length + ' pages)');
+}
