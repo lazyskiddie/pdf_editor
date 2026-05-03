@@ -219,9 +219,8 @@
     <p>No files stored or uploaded to our servers &nbsp;·&nbsp; No sign-up required &nbsp;·&nbsp; 100% Free</p>
 </footer>
  
-<!-- ══════════════════════════ MODALS ══════════════════════════ -->
  
-<!-- Privacy Modal -->
+
 <div id="privacyModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('privacy')">&times;</span>
@@ -243,5 +242,50 @@
         <div style="background:rgba(16,185,129,0.1);padding:1.4rem;border-radius:8px;margin-top:2rem;border-left:4px solid var(--accent-color);">
             <p style="margin:0;"><strong>🔒 Bottom Line:</strong> Your files never leave your device. Your privacy is guaranteed by how our technology works — not just by promises.</p>
         </div>
+    </div>
+</div>
+
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('terms')">&times;</span>
+        <h2>Terms of Use</h2>
+        <p><em>Last Updated: December 2024</em></p>
+        <h3>Acceptance of Terms</h3>
+        <p>By using SecurePDF you agree to be bound by these Terms of Use.</p>
+        <h3>Service Description</h3>
+        <p>SecurePDF provides free, client-side PDF editing tools. <strong>All processing occurs locally in your web browser.</strong></p>
+        <h3>User Responsibilities</h3>
+        <ul>
+            <li>Use the service only for lawful purposes</li>
+            <li>Ensure you have the legal right to edit the files you process</li>
+            <li>Maintain your own backups before editing any file</li>
+        </ul>
+        <h3>Disclaimer of Warranties</h3>
+        <p>The service is provided "as is" without warranties of any kind. Always keep backups of your original files.</p>
+        <h3>Contact</h3>
+        <p>Email: legal@securepdf.example</p>
+    </div>
+</div>
+ 
+
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('contact')">&times;</span>
+        <h2>Contact Us</h2>
+        <p>For questions, feedback, or support inquiries, please reach out to us:</p>
+        <p style="margin:1.8rem 0;">
+            <strong>Email:</strong> support@securepdf.example<br><br>
+            <strong>Response Time:</strong> We typically respond within 24–48 hours.
+        </p>
+        <p>We value your feedback! Let us know how we can improve our tools.</p>
+    </div>
+</div>
+ 
+
+<div id="blogModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('blog')">&times;</span>
+        <h2 id="blogTitle"></h2>
+        <div id="blogBody"></div>
     </div>
 </div>
