@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF - SecurePDF</title>
+    <meta name="description" content="Extract specific pages from your PDF. Free, secure, no uploads.">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-theme="light">
+ 
+<header class="header">
+    <nav class="nav">
+        <a href="../index.html" class="logo">📄 SecurePDF</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" onclick="showModal('privacy');return false;">Privacy</a></li>
+                <li><a href="#" onclick="showModal('terms');return false;">Terms</a></li>
+                <li><a href="#" onclick="showModal('contact');return false;">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+</header>
+ 
+<div class="container">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+ 
+    <div class="tool-page-hero">
+        <h1> Split PDF</h1>
+        <p>Click pages to assign them to File 1. Remaining pages become File 2.</p>
+    </div>
+ 
+    <div class="tool-workspace">
+ 
+        <div id="dropZoneArea">
+            <div class="drop-zone" id="dropZone">
+                <span class="upload-icon">📄</span>
+                <h3>Drop PDF here or click to browse</h3>
+                <p>No sign-up required · Fast and private</p>
+                <input type="file" id="fileInput" accept=".pdf">
+            </div>
+        </div>
+ 
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Loading your PDF…</p>
+        </div>
+ 
+        <div id="selectionArea" style="display:none;">
+            <div class="info-box">
+                <p>
+                    <strong>📄 Total:</strong> <span id="totalCount">0</span> &nbsp;|&nbsp;
+                    <strong style="color:var(--accent-color);">✅ File 1:</strong> <span id="f1Count">0</span> &nbsp;|&nbsp;
+                    <strong>📄 File 2:</strong> <span id="f2Count">0</span>
+                </p>
+                <p>Click a page to toggle it into File 1 (green border).</p>
+            </div>
+ 
+            <div style="display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;">
+                <button class="btn" id="splitBtn" onclick="doSplit()" disabled>✂️ Split into 2 Files</button>
+            </div>
+ 
+            <div class="pages-grid" id="pageGrid"></div>
+        </div>
+ 
+        <div id="resultBox" style="display:none;" class="result-box">
+            <div class="result-icon">✅</div>
+            <h3>Split Complete!</h3>
+            <div class="split-results" id="splitResults"></div>
+            <button class="btn btn-secondary" onclick="location.reload()">↻ Split Another PDF</button>
+        </div>
+ 
+    </div>
+</div>
