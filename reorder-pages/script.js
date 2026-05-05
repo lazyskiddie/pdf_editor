@@ -77,7 +77,6 @@ async function loadPDF(file) {
         }
  
         originalOrder = pages.map(function (p) { return Object.assign({}, p); });
- 
         document.getElementById('loadingBox').style.display = 'none';
         document.getElementById('totalCount').textContent = pages.length;
         renderGrid();
@@ -107,4 +106,63 @@ function renderGrid() {
         html += '</div>';
     }
     document.getElementById('reorderGrid').innerHTML = html;
+}
+
+function onDragStart(e, idx) {
+    draggedIdx = idx;
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+ 
+function onDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-target');
+    e.dataTransfer.dropEffect = 'move';
+}
+ 
+function onDrop(e, dropIdx) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-target');
+    if (draggedIdx !== null && draggedIdx !== dropIdx) {
+        var moved = pages.splice(draggedIdx, 1)[0];
+        pages.splice(dropIdx, 0, moved);
+        renderGrid();
+        showToast('Page order updated!');
+    }
+    draggedIdx = null;
+}
+ 
+function onDragEnd(e) {
+    e.currentTarget.classList.remove('dragging');
+    document.querySelectorAll('.reorder-card').forEach(function (c) {
+        c.classList.remove('drag-target');
+    });
+    draggedIdx = null;
+}
+ 
+function resetOrder() {
+    if (!confirm('Reset to original page order?')) return;
+    pages = originalOrder.map(function (p) { return Object.assign({}, p); });
+    renderGrid();
+    showToast('Reset to original order!');
+}
+ 
+
+function saveReordered() {
+    document.getElementById('reorderArea').style.display = 'none';
+    var newOrder = pages.map(function (p) { return p.origNum; }).join(', ');
+    document.getElementById('resultStats').innerHTML =
+        '<p><strong>Total Pages:</strong> ' + pages.length + '</p>' +
+        '<p><strong>New Order:</strong> ' + newOrder + '</p>' +
+        '<p><strong>Status:</strong> Ready to download</p>';
+    document.getElementById('resultBox').style.display = 'block';
+}
+ 
+function downloadReordered() {
+    if (!pages.length) return;
+    var a = document.createElement('a');
+    a.download = origName.replace('.pdf', '_reordered.jpg');
+    a.href = pages[0].dataUrl;
+    a.click();
+    showToast('Reordered PDF downloaded! (' + pages.length + ' pages)');
 }
