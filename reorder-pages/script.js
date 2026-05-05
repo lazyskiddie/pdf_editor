@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reorder PDF Pages - SecurePDF</title>
+    <meta name="description" content="Drag and drop to rearrange PDF pages. Free, secure, no uploads.">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-theme="light">
+ 
+<header class="header">
+    <nav class="nav">
+        <a href="../index.html" class="logo">📄 SecurePDF</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" onclick="showModal('privacy');return false;">Privacy</a></li>
+                <li><a href="#" onclick="showModal('terms');return false;">Terms</a></li>
+                <li><a href="#" onclick="showModal('contact');return false;">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+</header>
+ 
+<div class="container">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+ 
+    <div class="tool-page-hero">
+        <h1>📑 Reorder PDF Pages</h1>
+        <p>Drag and drop page cards to rearrange them, then download your updated PDF.</p>
+    </div>
+ 
+    <div class="tool-workspace">
+ 
+        <!-- Drop zone -->
+        <div id="dropZoneArea">
+            <div class="drop-zone" id="dropZone">
+                <span class="upload-icon">📄</span>
+                <h3>Drop PDF here or click to browse</h3>
+                <p>No sign-up required · Fast and private</p>
+                <input type="file" id="fileInput" accept=".pdf">
+            </div>
+        </div>
+ 
+        <!-- Loading -->
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Loading your PDF…</p>
+        </div>
