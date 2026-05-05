@@ -33,7 +33,6 @@
     </div>
  
     <div class="tool-workspace">
- 
         <div id="dropZoneArea">
             <div class="drop-zone" id="dropZone">
                 <span class="upload-icon">📄</span>
@@ -43,7 +42,35 @@
             </div>
         </div>
  
+        
         <div id="loadingBox" style="display:none;" class="loading-box">
             <div class="spinner"></div>
             <p style="color:var(--text-secondary);">Loading your PDF…</p>
         </div>
+
+        <div id="reorderArea" style="display:none;">
+            <div class="info-box">
+                <p><strong>📄 Total Pages:</strong> <span id="totalCount">0</span> &nbsp;|&nbsp; <strong>🔄 Drag & Drop</strong> to reorder</p>
+                <p>Grab any card and drop it to a new position.</p>
+            </div>
+ 
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+                <button class="btn" onclick="saveReordered()">💾 Save &amp; Download</button>
+                <button class="btn btn-secondary" onclick="resetOrder()">↻ Reset Order</button>
+            </div>
+ 
+            <div class="pages-grid" id="reorderGrid"></div>
+        </div>
+ 
+        <div id="resultBox" style="display:none;" class="result-box">
+            <div class="result-icon">✅</div>
+            <h3>Pages Reordered!</h3>
+            <div class="result-stats" id="resultStats"></div>
+            <div class="result-actions">
+                <button class="btn" onclick="downloadReordered()">💾 Download Reordered PDF</button>
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Reorder Another PDF</button>
+            </div>
+        </div>
+
+    </div>
+</div>
