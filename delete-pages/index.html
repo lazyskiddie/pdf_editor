@@ -42,3 +42,30 @@
                 <input type="file" id="fileInput" accept=".pdf">
             </div>
         </div>
+
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Loading your PDF…</p>
+        </div>
+ 
+        <div id="deleteArea" style="display:none;">
+            <div class="info-box">
+                <p>
+                    <strong>📄 Total:</strong> <span id="totalCount">0</span> &nbsp;|&nbsp;
+                    <strong style="color:#ef4444;">Selected:</strong> <span id="selCount">0</span> &nbsp;|&nbsp;
+                    <strong>Remaining:</strong> <span id="remCount">0</span>
+                </p>
+                <p>Click a page to mark it for deletion (red border). Then press "Delete Selected".</p>
+            </div>
+ 
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+                <button class="btn btn-danger" id="deleteBtn" onclick="deleteSelected()" disabled>
+                    🗑️ Delete Selected (<span id="delCount">0</span>)
+                </button>
+                <button class="btn" id="downloadBtn" onclick="prepareDownload()" disabled>
+                    💾 Download Remaining Pages
+                </button>
+            </div>
+ 
+            <div class="pages-grid" id="pageGrid"></div>
+        </div>
