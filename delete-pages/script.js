@@ -36,3 +36,22 @@ function showToast(msg, ms) {
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, ms);
 }
+
+(function setupDrop() {
+    var zone  = document.getElementById('dropZone');
+    var input = document.getElementById('fileInput');
+ 
+    zone.addEventListener('click', function () { input.click(); });
+    zone.addEventListener('dragover', function (e) {
+        e.preventDefault(); zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) loadPDF(e.dataTransfer.files[0]);
+    });
+    input.addEventListener('change', function (e) {
+        if (e.target.files[0]) loadPDF(e.target.files[0]);
+    });
+})();
