@@ -55,3 +55,36 @@ function showToast(msg, ms) {
         if (e.target.files[0]) loadPDF(e.target.files[0]);
     });
 })();
+
+async function loadPDF(file) {
+    if (file.type !== 'application/pdf') { alert('⚠️ Please select a PDF file.'); return; }
+    origName = file.name;
+ 
+    document.getElementById('dropZoneArea').style.display = 'none';
+    document.getElementById('loadingBox').style.display = 'block';
+ 
+    try {
+        var buf = await file.arrayBuffer();
+        var pdf = await pdfjsLib.getDocument(buf).promise;
+        allPages = [];
+ 
+        for (var i = 1; i <= pdf.numPages; i++) {
+            var page     = await pdf.getPage(i);
+            var viewport = page.getViewport({ scale: 1.5 });
+            var canvas   = document.createElement('canvas');
+            canvas.width  = viewport.width;
+            canvas.height = viewport.height;
+            await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+            allPages.push({ pageNumber: i, dataUrl: canvas.toDataURL('image/jpeg', 0.88), deleted: false });
+        }
+ 
+        document.getElementById('loadingBox').style.display = 'none';
+        renderGrid();
+        document.getElementById('deleteArea').style.display = 'block';
+ 
+    } catch (err) {
+        console.error(err);
+        alert('Could not load PDF. Please try again.');
+        location.reload();
+    }
+}
