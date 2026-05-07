@@ -88,3 +88,63 @@ async function loadPDF(file) {
         location.reload();
     }
 }
+
+function renderGrid() {
+    var visible   = allPages.filter(function (p) { return !p.deleted; });
+    var total     = allPages.length;
+    var selected  = pendingSet.size;
+    var remaining = visible.length - selected;
+ 
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('selCount').textContent   = selected;
+    document.getElementById('remCount').textContent   = remaining;
+    document.getElementById('delCount').textContent   = selected;
+ 
+    var deletedCount = allPages.filter(function (p) { return p.deleted; }).length;
+ 
+    document.getElementById('deleteBtn').disabled   = selected === 0;
+    document.getElementById('downloadBtn').disabled = deletedCount === 0;
+ 
+    var html = '';
+    for (var i = 0; i < visible.length; i++) {
+        var p    = visible[i];
+        var isSel = pendingSet.has(p.pageNumber);
+        html += '<div class="page-card ' + (isSel ? 'selected-delete' : '') + '" onclick="togglePage(' + p.pageNumber + ')">';
+        html += '<div style="position:relative;">';
+        html += '<img src="' + p.dataUrl + '" class="page-preview" alt="Page ' + p.pageNumber + '">';
+        if (isSel) {
+            html += '<div class="page-badge badge-center badge-red">✓ Selected</div>';
+        }
+        html += '</div>';
+        html += '<div class="page-number">Page ' + p.pageNumber + '</div>';
+        html += '</div>';
+    }
+    document.getElementById('pageGrid').innerHTML = html;
+}
+ 
+function togglePage(num) {
+    if (pendingSet.has(num)) pendingSet.delete(num); else pendingSet.add(num);
+    renderGrid();
+}
+
+// CONFIRM AND APPLY DELETIONS section
+function deleteSelected() {
+    if (!pendingSet.size) return;
+ 
+    var visible   = allPages.filter(function (p) { return !p.deleted; });
+    var remaining = visible.length - pendingSet.size;
+ 
+    if (remaining === 0) {
+        alert('⚠️ At least one page must remain. You cannot delete all pages.');
+        return;
+    }
+ 
+    if (!confirm('Delete ' + pendingSet.size + ' page(s)? ' + remaining + ' page(s) will remain.')) return;
+ 
+    allPages.forEach(function (p) {
+        if (pendingSet.has(p.pageNumber)) p.deleted = true;
+    });
+    pendingSet.clear();
+    renderGrid();
+    showToast('Pages deleted! Click "Download Remaining Pages" to save.');
+}
