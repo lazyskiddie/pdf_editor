@@ -148,3 +148,26 @@ function deleteSelected() {
     renderGrid();
     showToast('Pages deleted! Click "Download Remaining Pages" to save.');
 }
+
+function prepareDownload() {
+    finalPages = allPages.filter(function (p) { return !p.deleted; });
+    if (!finalPages.length) { alert('⚠️ No pages remaining.'); return; }
+ 
+    document.getElementById('deleteArea').style.display = 'none';
+    var deletedCount = allPages.filter(function (p) { return p.deleted; }).length;
+    document.getElementById('resultStats').innerHTML =
+        '<p><strong>Original Pages:</strong> ' + allPages.length + '</p>' +
+        '<p><strong>Pages Deleted:</strong> ' + deletedCount + '</p>' +
+        '<p><strong>Remaining:</strong> ' + finalPages.length + '</p>';
+    document.getElementById('resultBox').style.display = 'block';
+}
+ 
+// DOWNLOAD
+function downloadFinal() {
+    if (!finalPages.length) return;
+    var a = document.createElement('a');
+    a.download = origName.replace('.pdf', '_edited.jpg');
+    a.href = finalPages[0].dataUrl;
+    a.click();
+    showToast('PDF downloaded! (' + finalPages.length + ' pages remaining)');
+}
