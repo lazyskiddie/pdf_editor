@@ -44,3 +44,12 @@ document.addEventListener('click', function (e) {
         if (e.target.files[0]) showPasswordForm(e.target.files[0]);
     });
 })();
+
+function showPasswordForm(file) {
+    if (file.type !== 'application/pdf') { alert('⚠️ Please select a PDF file.'); return; }
+    fileToLock = file;
+    origName   = file.name;
+    document.getElementById('dropZoneArea').style.display = 'none';
+    document.getElementById('selectedFileName').textContent = file.name;
+    document.getElementById('passwordForm').style.display = 'block';
+}
