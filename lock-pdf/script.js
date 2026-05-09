@@ -107,3 +107,12 @@ async function lockPDF() {
         location.reload();
     }
 }
+
+function downloadLocked() {
+    if (!lockedPages.length) return;
+    var a = document.createElement('a');
+    a.download = origName.replace('.pdf', '_locked.jpg');
+    a.href = lockedPages[0];
+    a.click();
+    showToast('Locked PDF downloaded!');
+}
