@@ -1,11 +1,12 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
- 
+
+
 var lockedPages = [];   
 var origName    = '';
 var fileToLock  = null;
- 
-// theme toggle
+
+// THEME 
 function toggleTheme() {
     var isDark = document.body.getAttribute('data-theme') === 'dark';
     document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
@@ -18,18 +19,28 @@ function toggleTheme() {
     var btn = document.getElementById('themeToggle');
     if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
 })();
- 
-// modal handling
+
+// MODALS 
 function showModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
 function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('modal')) e.target.classList.remove('active');
 });
 
+// TOAST
+function showToast(msg, ms) {
+    ms = ms || 3000;
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, ms);
+}
+
 (function setupDrop() {
     var zone  = document.getElementById('dropZone');
     var input = document.getElementById('fileInput');
- 
+
     zone.addEventListener('click', function () { input.click(); });
     zone.addEventListener('dragover', function (e) {
         e.preventDefault(); zone.classList.add('drag-over');
@@ -46,7 +57,7 @@ document.addEventListener('click', function (e) {
 })();
 
 function showPasswordForm(file) {
-    if (file.type !== 'application/pdf') { alert('⚠️ Please select a PDF file.'); return; }
+    if (file.type !== 'application/pdf') { alert('Please select a PDF file.'); return; }
     fileToLock = file;
     origName   = file.name;
     document.getElementById('dropZoneArea').style.display = 'none';
@@ -57,19 +68,19 @@ function showPasswordForm(file) {
 async function lockPDF() {
     var pass    = document.getElementById('passInput').value;
     var confirm = document.getElementById('passConfirm').value;
- 
+
     if (!pass)             { alert('Please enter a password.'); return; }
     if (pass.length < 4)   { alert('Password must be at least 4 characters.'); return; }
     if (pass !== confirm)  { alert('Passwords do not match.'); return; }
- 
+
     document.getElementById('passwordForm').style.display = 'none';
     document.getElementById('loadingBox').style.display   = 'block';
- 
+
     try {
         var buf = await fileToLock.arrayBuffer();
         var pdf = await pdfjsLib.getDocument(buf).promise;
         lockedPages = [];
- 
+
         for (var i = 1; i <= pdf.numPages; i++) {
             var page     = await pdf.getPage(i);
             var viewport = page.getViewport({ scale: 1.5 });
@@ -78,7 +89,7 @@ async function lockPDF() {
             canvas.height = viewport.height;
             var ctx = canvas.getContext('2d');
             await page.render({ canvasContext: ctx, viewport: viewport }).promise;
- 
+
             // Visual watermark to indicate locked status
             ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -90,17 +101,17 @@ async function lockPDF() {
             ctx.rotate(-0.4);
             ctx.fillText('🔒 PASSWORD PROTECTED', 0, 0);
             ctx.restore();
- 
+
             lockedPages.push(canvas.toDataURL('image/jpeg', 0.9));
         }
- 
+
         document.getElementById('loadingBox').style.display = 'none';
         document.getElementById('resultStats').innerHTML =
             '<p><strong>📄 File:</strong> ' + origName + '</p>' +
             '<p><strong>🔒 Status:</strong> Password Protected</p>' +
             '<p><strong>📊 Pages:</strong> ' + pdf.numPages + '</p>';
         document.getElementById('resultBox').style.display = 'block';
- 
+
     } catch (err) {
         console.error(err);
         alert('Locking failed. Please try again.');
