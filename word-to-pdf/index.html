@@ -49,3 +49,22 @@
                 </p>
             </div>
         </div>
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Converting your document…</p>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.5rem;" id="progressText"></p>
+        </div>
+ 
+        <div id="previewArea" style="display:none;">
+            <div class="info-box">
+                <p><strong>Conversion complete!</strong> Preview your document below, then download.</p>
+                <p>Scroll through pages to check the output before downloading.</p>
+            </div>
+ 
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+                <button class="btn" onclick="downloadAll()">Download All Pages as PDF</button>
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Convert Another File</button>
+            </div>
+ 
+            <div id="previewGrid" class="pages-grid"></div>
+        </div>
