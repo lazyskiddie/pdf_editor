@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word to PDF - SecurePDF</title>
+    <meta name="description" content="Convert Word documents to PDF format. Free, secure, no uploads.">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-theme="light">
+ 
+<header class="header">
+    <nav class="nav">
+        <a href="../index.html" class="logo">📄 SecurePDF</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" onclick="showModal('privacy');return false;">Privacy</a></li>
+                <li><a href="#" onclick="showModal('terms');return false;">Terms</a></li>
+                <li><a href="#" onclick="showModal('contact');return false;">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+</header>
+ 
+<div class="container">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+ 
+    <div class="tool-page-hero">
+        <h1>📘 Word to PDF</h1>
+        <p>Convert Word documents (.doc, .docx, .rtf, .txt) to PDF format. Everything runs in your browser — nothing is uploaded.</p>
+    </div>
+ 
+    <div class="tool-workspace">
+ 
+        <div id="dropZoneArea">
+            <div class="drop-zone" id="dropZone">
+                <span class="upload-icon">📘</span>
+                <h3>Drop Word file here or click to browse</h3>
+                <p>Supports .doc &nbsp;·&nbsp; .docx &nbsp;·&nbsp; .rtf &nbsp;·&nbsp; .txt</p>
+                <input type="file" id="fileInput" accept=".doc,.docx,.rtf,.txt">
+            </div>
+ 
+            <div style="margin-top:1.8rem;background:rgba(16,185,129,0.07);border-radius:12px;padding:1.4rem 1.8rem;border-left:4px solid var(--accent-color);">
+                <p style="font-weight:600;margin-bottom:0.5rem;">📋 What this tool does:</p>
+                <p style="color:var(--text-secondary);font-size:0.93rem;line-height:1.7;">
+                    Reads the text content from your file and renders it onto an A4-sized canvas, then lets you download it as a PDF-ready image. For plain text and RTF files the output is clean and accurate. All processing is 100% local — your file never leaves your device.
+                </p>
+            </div>
+        </div>
