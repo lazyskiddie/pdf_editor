@@ -78,3 +78,14 @@ async function convertFile(file) {
         location.reload();
     }
 }
+
+function stripRTF(rtf) {
+    var text = rtf
+        .replace(/\{[^{}]*\}/g, ' ')      
+        .replace(/\\[a-z]+\-?[0-9]* ?/gi, ' ')
+        .replace(/\\/g, ' ')
+        .replace(/[{}]/g, '')
+        .replace(/[ \t]+/g, ' ')
+        .trim();
+    return text;
+}
