@@ -199,3 +199,16 @@ function renderTextToPages(text) {
  
     return pages;
 }
+
+function downloadConverted() {
+    if (!convertedPages.length) return;
+    for (var i = 0; i < convertedPages.length; i++) {
+        var a = document.createElement('a');
+        var suffix = convertedPages.length > 1 ? '_page' + (i + 1) : '';
+        a.download = origName.replace(/\.(docx?|rtf|txt)$/i, suffix + '.jpg');
+        a.href     = convertedPages[i];
+        a.click();
+    }
+ 
+    showToast('Downloaded ' + convertedPages.length + ' page(s)!');
+}
