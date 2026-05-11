@@ -127,3 +127,31 @@ function renderTextToPages(text) {
         }
         if (current) allLines.push(current);
     }
+
+    var lineIndex = 0;
+    while (lineIndex < allLines.length) {
+        var canvas = document.createElement('canvas');
+        canvas.width  = PAGE_W;
+        canvas.height = PAGE_H;
+        var ctx = canvas.getContext('2d');
+ 
+        // White background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, PAGE_W, PAGE_H);
+ 
+        // Page border (subtle)
+        ctx.strokeStyle = '#e5e7eb';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, PAGE_W - 1, PAGE_H - 1);
+ 
+        // Text
+        ctx.fillStyle = '#2c3e50';
+        ctx.font      = FONT_SZ + 'px Arial';
+ 
+        var y = MARGIN + FONT_SZ;
+ 
+        while (lineIndex < allLines.length && y <= MAX_Y) {
+            ctx.fillText(allLines[lineIndex], MARGIN, y);
+            y += LINE_H;
+            lineIndex++;
+        }
