@@ -89,3 +89,41 @@ function stripRTF(rtf) {
         .trim();
     return text;
 }
+
+function renderTextToPages(text) {
+    var pages = [];
+ 
+    var PAGE_W   = 794;
+    var PAGE_H   = 1123;
+    var MARGIN   = 60;
+    var LINE_H   = 22;
+    var FONT_SZ  = 13;
+    var MAX_W    = PAGE_W - MARGIN * 2;
+    var MAX_Y    = PAGE_H - MARGIN;
+ 
+    var lines = text.split('\n');
+ 
+    var allLines = [];
+    var measureCanvas = document.createElement('canvas');
+    var mCtx = measureCanvas.getContext('2d');
+    mCtx.font = FONT_SZ + 'px Arial';
+ 
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.trim() === '') {
+            allLines.push('');  
+            continue;
+        }
+        var words = line.split(' ');
+        var current = '';
+        for (var w = 0; w < words.length; w++) {
+            var test = current ? current + ' ' + words[w] : words[w];
+            if (mCtx.measureText(test).width > MAX_W) {
+                if (current) allLines.push(current);
+                current = words[w];
+            } else {
+                current = test;
+            }
+        }
+        if (current) allLines.push(current);
+    }
