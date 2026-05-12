@@ -49,3 +49,24 @@
                 </p>
             </div>
         </div>
+
+        <div id="loadingBox" style="display:none;" class="loading-box">
+            <div class="spinner"></div>
+            <p style="color:var(--text-secondary);">Extracting text from your PDF…</p>
+            <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.5rem;" id="progressText"></p>
+        </div>
+        <div id="previewArea" style="display:none;">
+            <div class="info-box">
+                <p><strong>✅ Text extracted successfully!</strong> Preview the content below before downloading.</p>
+                <p>The downloaded .rtf file will open in Microsoft Word, LibreOffice, or Google Docs.</p>
+            </div>
+ 
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+                <button class="btn" onclick="downloadWord()">💾 Download as Word (.rtf)</button>
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Convert Another PDF</button>
+            </div>
+ 
+            <div style="background:var(--bg-primary);border:1px solid var(--border-color);border-radius:12px;padding:1.5rem;max-height:400px;overflow-y:auto;">
+                <pre id="textPreview" style="font-family:Arial,sans-serif;font-size:0.9rem;color:var(--text-primary);white-space:pre-wrap;word-break:break-word;margin:0;"></pre>
+            </div>
+        </div>
