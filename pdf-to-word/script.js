@@ -19,6 +19,21 @@ function toggleTheme() {
     if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
 })();
 
+function showModal(id) { document.getElementById(id + 'Modal').classList.add('active'); }
+function closeModal(id) { document.getElementById(id + 'Modal').classList.remove('active'); }
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('modal')) e.target.classList.remove('active');
+});
+ 
+function showToast(msg, ms) {
+    ms = ms || 3000;
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, ms);
+}
+
 (function setupDrop() {
     var zone  = document.getElementById('dropZone');
     var input = document.getElementById('fileInput');
