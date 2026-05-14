@@ -129,3 +129,16 @@ function buildRTF(plainText) {
            rtfBody +
            '\n}';
 }
+function downloadWord() {
+    if (!rtfContent) return;
+ 
+    var blob = new Blob([rtfContent], { type: 'application/rtf' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.download = origName.replace('.pdf', '.rtf');
+    a.href     = url;
+    a.click();
+    URL.revokeObjectURL(url);
+ 
+    showToast('Word document downloaded!');
+}
