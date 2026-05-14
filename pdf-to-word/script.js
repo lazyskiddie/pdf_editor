@@ -53,3 +53,63 @@ function showToast(msg, ms) {
         if (e.target.files[0]) convertPDF(e.target.files[0]);
     });
 })();
+
+async function convertPDF(file) {
+    if (file.type !== 'application/pdf') {
+        alert('Please select a PDF file.');
+        return;
+    }
+ 
+    origName = file.name;
+ 
+    document.getElementById('dropZoneArea').style.display = 'none';
+    document.getElementById('loadingBox').style.display   = 'block';
+ 
+    try {
+        var buf = await file.arrayBuffer();
+        var pdf = await pdfjsLib.getDocument(buf).promise;
+ 
+        var fullText = '';
+ 
+        for (var i = 1; i <= pdf.numPages; i++) {
+            document.getElementById('progressText').textContent =
+                'Extracting page ' + i + ' of ' + pdf.numPages + '…';
+ 
+            var page    = await pdf.getPage(i);
+            var content = await page.getTextContent();
+ 
+            var pageText  = '';
+            var lastY     = null;
+            for (var j = 0; j < content.items.length; j++) {
+                var item = content.items[j];
+                if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+                    pageText += '\n';
+                }
+                pageText += item.str;
+                if (item.hasEOL) pageText += '\n';
+                lastY = item.transform[5];
+            }
+ 
+            fullText += '\n\n── Page ' + i + ' ──\n\n' + pageText.trim();
+        }
+ 
+        rtfContent = buildRTF(fullText);
+ 
+        document.getElementById('loadingBox').style.display = 'none';
+ 
+        document.getElementById('textPreview').textContent = fullText.trim();
+        document.getElementById('previewArea').style.display = 'block';
+ 
+        document.getElementById('resultStats').innerHTML =
+            '<p><strong>📄 Original:</strong> ' + file.name + '</p>' +
+            '<p><strong>Pages Extracted:</strong> ' + pdf.numPages + '</p>' +
+            '<p><strong>Text Size:</strong> ' + (fullText.length / 1024).toFixed(1) + ' KB</p>' +
+            '<p><strong>Format:</strong> RTF (opens in Word, LibreOffice, Google Docs)</p>';
+ 
+    } catch (err) {
+        console.error(err);
+        document.getElementById('loadingBox').style.display = 'none';
+        alert('Conversion failed. Please try again.');
+        location.reload();
+    }
+}
