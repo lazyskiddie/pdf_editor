@@ -113,3 +113,19 @@ async function convertPDF(file) {
         location.reload();
     }
 }
+
+function buildRTF(plainText) {
+    var escaped = plainText
+        .replace(/\\/g, '\\\\')
+        .replace(/\{/g, '\\{')
+        .replace(/\}/g, '\\}');
+ 
+    var rtfBody = escaped.replace(/\n/g, '\\par\n');
+ 
+    return '{\\rtf1\\ansi\\deff0\n' +
+           '{\\fonttbl{\\f0\\fswiss\\fcharset0 Arial;}}\n' +
+           '{\\colortbl;\\red44\\green62\\blue80;}\n' +
+           '\\viewkind4\\uc1\\pard\\cf1\\f0\\fs24\n' +
+           rtfBody +
+           '\n}';
+}
