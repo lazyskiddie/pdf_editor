@@ -41,3 +41,22 @@
                 <p>No sign-up required &nbsp;·&nbsp; Fast and private</p>
                 <input type="file" id="fileInput" accept=".pdf">
             </div>
+            // Compression level options just like traffic light
+            <div style="margin-top:2rem;text-align:center;">
+                <p style="font-weight:600;color:var(--text-primary);margin-bottom:1rem;">Choose Compression Level</p>
+                <div class="quality-options">
+                    <button class="quality-btn" data-quality="0.75" data-scale="0.9" onclick="selectLevel(this)">
+                        🟢 Low &nbsp;<small style="font-weight:400;">(best quality)</small>
+                    </button>
+                    <button class="quality-btn active" data-quality="0.45" data-scale="0.65" onclick="selectLevel(this)">
+                        🟡 Medium &nbsp;<small style="font-weight:400;">(recommended)</small>
+                    </button>
+                    <button class="quality-btn" data-quality="0.2" data-scale="0.45" onclick="selectLevel(this)">
+                        🔴 High &nbsp;<small style="font-weight:400;">(smallest size)</small>
+                    </button>
+                </div>
+                <p style="color:var(--text-secondary);font-size:0.88rem;margin-top:0.8rem;">
+                    Select a level, then drop or click your PDF above.
+                </p>
+            </div>
+        </div>
