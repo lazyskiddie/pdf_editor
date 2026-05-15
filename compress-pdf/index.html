@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF - SecurePDF</title>
+    <meta name="description" content="Reduce PDF file size without losing quality. Free, secure, no uploads.">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body data-theme="light">
+
+<header class="header">
+    <nav class="nav">
+        <a href="../index.html" class="logo">📄 SecurePDF</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#" onclick="showModal('privacy');return false;">Privacy</a></li>
+                <li><a href="#" onclick="showModal('terms');return false;">Terms</a></li>
+                <li><a href="#" onclick="showModal('contact');return false;">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+
+    <div class="tool-page-hero">
+        <h1>🗜️ Compress PDF</h1>
+        <p>Reduce your PDF file size by choosing a compression level. All processing happens locally — nothing is ever uploaded.</p>
+    </div>
+
+    <div class="tool-workspace">
+
+        <div id="dropZoneArea">
+            <div class="drop-zone" id="dropZone">
+                <span class="upload-icon">🗜️</span>
+                <h3>Drop PDF here or click to browse</h3>
+                <p>No sign-up required &nbsp;·&nbsp; Fast and private</p>
+                <input type="file" id="fileInput" accept=".pdf">
+            </div>
