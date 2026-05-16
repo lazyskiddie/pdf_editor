@@ -65,3 +65,12 @@
             <p style="color:var(--text-secondary);">Compressing your PDF…</p>
             <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:0.4rem;" id="progressText"></p>
         </div>
+        <div id="resultBox" style="display:none;" class="result-box">
+            <div class="result-icon">✅</div>
+            <h3>Compression Complete!</h3>
+            <div class="result-stats" id="resultStats"></div>
+            <div class="result-actions">
+                <button class="btn" onclick="downloadCompressed()">💾 Download Compressed PDF</button>
+                <button class="btn btn-secondary" onclick="location.reload()">↻ Compress Another PDF</button>
+            </div>
+        </div>
