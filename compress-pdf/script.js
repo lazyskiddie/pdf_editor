@@ -36,3 +36,11 @@ function showToast(msg, ms) {
     document.body.appendChild(t);
     setTimeout(function () { t.remove(); }, ms);
 }
+function selectLevel(btn) {
+    document.querySelectorAll('.quality-btn').forEach(function (b) {
+        b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    chosenQuality = parseFloat(btn.getAttribute('data-quality'));
+    chosenScale   = parseFloat(btn.getAttribute('data-scale'));
+}
