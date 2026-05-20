@@ -70,3 +70,64 @@ function selectLevel(btn) {
         if (e.target.files[0]) compressFile(e.target.files[0]);
     });
 })();
+
+async function compressFile(file) {
+    if (file.type !== 'application/pdf') {
+        alert('Please select a PDF file.');
+        return;
+    }
+
+    origName = file.name;
+    var originalSize = file.size;
+
+    document.getElementById('dropZoneArea').style.display = 'none';
+    document.getElementById('loadingBox').style.display   = 'block';
+
+    try {
+        var buf = await file.arrayBuffer();
+        var pdf = await pdfjsLib.getDocument(buf).promise;
+
+        compressedPages = [];
+
+        for (var i = 1; i <= pdf.numPages; i++) {
+            document.getElementById('progressText').textContent =
+                'Compressing page ' + i + ' of ' + pdf.numPages + '…';
+
+            var page     = await pdf.getPage(i);
+            var viewport = page.getViewport({ scale: chosenScale });
+
+            var canvas  = document.createElement('canvas');
+            canvas.width  = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({
+                canvasContext: canvas.getContext('2d'),
+                viewport:      viewport
+            }).promise;
+
+            compressedPages.push(canvas.toDataURL('image/jpeg', chosenQuality));
+        }
+
+        var totalB64Chars = compressedPages.reduce(function (acc, dataUrl) {
+            return acc + dataUrl.split(',')[1].length;
+        }, 0);
+        var compressedBytes = Math.round(totalB64Chars * 0.75);
+
+        var origMB = (originalSize    / 1024 / 1024).toFixed(2);
+        var compMB = (compressedBytes / 1024 / 1024).toFixed(2);
+        var saved  = Math.max(0, Math.round((1 - compressedBytes / originalSize) * 100));
+
+        document.getElementById('loadingBox').style.display = 'none';
+        document.getElementById('resultStats').innerHTML =
+            '<p><strong>📄 Original Size:</strong> ' + origMB + ' MB</p>' +
+            '<p><strong>📦 Compressed Size:</strong> ' + compMB + ' MB</p>' +
+            '<p class="stat-highlight"><strong>💾 Space Saved:</strong> ~' + saved + '%</p>' +
+            '<p><strong>Pages Processed:</strong> ' + pdf.numPages + '</p>';
+        document.getElementById('resultBox').style.display = 'block';
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById('loadingBox').style.display = 'none';
+        document.getElementById('errorBox').style.display   = 'block';
+    }
+}
